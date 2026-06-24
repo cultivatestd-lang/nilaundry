@@ -1,12 +1,8 @@
 services:
   - type: web
     name: nilaundry
-    env: php
-    buildCommand: |-
-      composer install --no-dev --optimize-autoloader &&
-      npm ci &&
-      npm run build &&
-      php artisan optimize
+    env: docker
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: APP_ENV
         value: production
@@ -18,11 +14,11 @@ services:
         value: https://nilaundry.onrender.com
       - key: DB_CONNECTION
         value: sqlite
-      - key: LOG_LEVEL
-        value: error
       - key: SESSION_DRIVER
         value: file
       - key: CACHE_STORE
         value: file
       - key: QUEUE_CONNECTION
         value: sync
+      - key: LOG_LEVEL
+        value: error
