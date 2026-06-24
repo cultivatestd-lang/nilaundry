@@ -2,7 +2,7 @@ FROM php:8.4-apache-bookworm AS build
 
 # System deps
 RUN apt-get update && apt-get install -y \
-    git unzip libzip-dev curl \
+    git unzip libzip-dev curl libsqlite3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # PHP extensions
@@ -27,11 +27,10 @@ RUN composer install --no-dev --optimize-autoloader && \
 # --- Production image ---
 FROM php:8.4-apache-bookworm
 
-RUN apt-get update && apt-get install -y \
-    libsqlite3-0 \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN docker-php-ext-install pdo_sqlite
+# PDO SQLite
+RUN apt-get update && apt-get install -y libsqlite3-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-install pdo_sqlite
 RUN a2enmod rewrite
 
 # Apache doc root ke public/
