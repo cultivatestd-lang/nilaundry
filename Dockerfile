@@ -18,16 +18,8 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies (assets are pre-built, committed to git)
-# Env vars needed for config:cache (matches render.yaml values)
-ENV APP_KEY=base64:D3OUJ8QLQqtU9Wjs4/j5KXSrxnyl4JysnOVKLShsD54=
-ENV APP_ENV=production APP_DEBUG=false DB_CONNECTION=sqlite
-ENV SESSION_DRIVER=file CACHE_STORE=file QUEUE_CONNECTION=sync
-ENV LOG_LEVEL=error
 RUN composer install --no-dev --optimize-autoloader
-RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs && \
-    php artisan config:cache && \
-    php artisan event:cache && \
-    php artisan route:cache
+RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs
 
 # --- Production image ---
 FROM php:8.4-apache-bookworm
