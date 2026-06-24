@@ -8,20 +8,14 @@ RUN apt-get update && apt-get install -y \
 # PHP extensions
 RUN docker-php-ext-install zip pdo_sqlite
 
-# Node.js for asset building
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
-    apt-get install -y nodejs && \
-    rm -rf /var/lib/apt/lists/*
-
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 COPY . .
 
-# Build assets
+# Install dependencies (assets are pre-built, committed to git)
 RUN composer install --no-dev --optimize-autoloader && \
-    npm ci && npm run build && \
     php artisan optimize
 
 # --- Production image ---
