@@ -3,10 +3,13 @@ FROM php:8.4-apache-bookworm AS build
 # System deps
 RUN apt-get update && apt-get install -y \
     git unzip libzip-dev curl libsqlite3-dev \
+    libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # PHP extensions
-RUN docker-php-ext-install zip pdo_sqlite
+RUN docker-php-ext-install zip pdo_sqlite && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install gd
 
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -23,8 +26,11 @@ RUN php artisan optimize
 FROM php:8.4-apache-bookworm
 
 RUN apt-get update && apt-get install -y libsqlite3-dev sqlite3 \
+    libpng-dev libjpeg62-turbo-dev libfreetype6-dev \
     && rm -rf /var/lib/apt/lists/*
-RUN docker-php-ext-install pdo_sqlite
+RUN docker-php-ext-install pdo_sqlite && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install gd
 RUN a2enmod rewrite
 
 # Apache doc root ke public/
