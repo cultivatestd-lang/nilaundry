@@ -24,7 +24,7 @@ ENV APP_ENV=production APP_DEBUG=false DB_CONNECTION=sqlite
 ENV SESSION_DRIVER=file CACHE_STORE=file QUEUE_CONNECTION=sync
 ENV LOG_LEVEL=error
 RUN composer install --no-dev --optimize-autoloader
-RUN mkdir -p storage/framework/{cache/data,sessions,views} storage/logs && \
+RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs && \
     php artisan config:cache && \
     php artisan event:cache && \
     php artisan route:cache
@@ -50,7 +50,7 @@ RUN sed -i 's|/var/www/html|${APACHE_DOCUMENT_ROOT}|g' \
 WORKDIR /var/www/html
 COPY --from=build /app /var/www/html
 
-RUN mkdir -p storage/framework/{cache/data,sessions,views} storage/logs && \
+RUN mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views storage/logs && \
     chown -R www-data:www-data storage bootstrap/cache database
 
 EXPOSE 80
