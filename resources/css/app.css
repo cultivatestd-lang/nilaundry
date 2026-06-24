@@ -1,0 +1,99 @@
+@import "@fontsource/outfit/300.css";
+@import "@fontsource/outfit/400.css";
+@import "@fontsource/outfit/500.css";
+@import "@fontsource/outfit/600.css";
+@import "@fontsource/outfit/700.css";
+@import "@fontsource/outfit/800.css";
+
+/* 2. Import AOS CSS */
+@import "aos/dist/aos.css";
+
+/* 3. Import MDI */
+@import "@mdi/font/css/materialdesignicons.css";
+
+/* 4. Import Utama Tailwind v4 */
+@import "tailwindcss";
+
+/* 3. Konfigurasi Tema & Variabel */
+@theme {
+    /* Font */
+    --font-sans: "Outfit", sans-serif;
+
+    /* Text Fluid */
+    --text-fluid-h1: clamp(1.75rem, 4vw + 1rem, 4rem);
+
+    /* Warna Brand (Biru) */
+    --color-brand-50: #eff6ff;
+    --color-brand-100: #dbeafe;
+    --color-brand-200: #bfdbfe;
+    --color-brand-500: #3b82f6;
+    --color-brand-600: #2563eb;
+    --color-brand-700: #1d4ed8;
+    --color-brand-900: #1e3a8a;
+
+    /* Warna Fresh (Cyan) */
+    --color-fresh-400: #22d3ee;
+    --color-fresh-500: #06b6d4;
+
+    /* Custom Shadow */
+    --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.5);
+}
+
+/* 4. Base Styles (Body & Global) */
+@layer base {
+    /* Perbaikan utama untuk Horizontal Scroll */
+    html, body {
+        max-width: 100vw;
+        overflow-x: hidden;
+        position: relative;
+        /* Mencegah tarikan elastis di iOS yang sering bikin 'goyang' */
+        overscroll-behavior-x: none; 
+    }
+
+    body {
+        background-color: #F8FAFC;
+        background-image: 
+            radial-gradient(at 0% 0%, hsla(213,100%,88%,1) 0, transparent 50%), 
+            radial-gradient(at 100% 100%, hsla(189,100%,88%,1) 0, transparent 50%);
+        background-attachment: fixed;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        /* Pastikan body tidak memicu scroll horizontal */
+        width: 100%; 
+        min-height: 100vh;
+    }
+
+    /* Memastikan elemen gambar tidak merusak layout */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* 5. Utilities Tambahan */
+@layer utilities {
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+/* 6. Style Komponen Preloader */
+#preloader {
+    position: fixed;
+    inset: 0;
+    background: #0f172a;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    will-change: transform;
+}
+
+/* 7. STYLE WAJIB LENIS (Smooth Scroll) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-scrolling iframe { pointer-events: none; }
