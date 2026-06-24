@@ -16,8 +16,8 @@ COPY . .
 
 # Install dependencies (assets are pre-built, committed to git)
 ENV APP_DEBUG=true
-RUN composer install --no-dev --optimize-autoloader && \
-    php artisan optimize
+RUN composer install --no-dev --optimize-autoloader
+RUN php artisan optimize
 
 # --- Production image ---
 FROM php:8.4-apache-bookworm
