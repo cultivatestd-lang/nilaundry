@@ -18,9 +18,10 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies (assets are pre-built, committed to git)
-ENV APP_DEBUG=true
 RUN composer install --no-dev --optimize-autoloader
-RUN php artisan optimize
+    RUN php artisan config:cache && \
+        php artisan event:cache && \
+        php artisan route:cache
 
 # --- Production image ---
 FROM php:8.4-apache-bookworm
